@@ -37,14 +37,11 @@ found_mission_ids = {
     if general.resolve_text(language["en"], text_table.get(f"{mid}_name", {}).get("id", ""))
 }
 
+already_processed = set(mission_list.MISSION_LIST)
 newly_processed_missions = [
     m_id for m_id in sorted(found_mission_ids)
-    if m_id not in mission_list.MISSION_LIST
+    if m_id not in already_processed
 ]
-
-if newly_processed_missions:
-    mission.save_new_missions_to_list(newly_processed_missions)
-    mission_list.MISSION_LIST.extend(newly_processed_missions)
 
 # Make that sausage
 sorted_mission_ids = sorted(found_mission_ids, key=_natural_sort_key)
@@ -52,6 +49,8 @@ map_ep_starts = mission.build_map_episode_starts(mission_table, mission_type_inf
 
 with open(MISSION_PAGE_OUTPUT, "w", encoding="utf-8") as out:
     for mission_id in sorted_mission_ids:
+        if mission_id in already_processed:
+            continue
 
         mission_name_key = f"{mission_id}_name"
         name_entry = text_table.get(mission_name_key, {})
@@ -98,3 +97,6 @@ with open(MISSION_PAGE_OUTPUT, "w", encoding="utf-8") as out:
 {{{{-stop-}}}}
 
 """)
+
+if newly_processed_missions:
+    mission.save_new_missions_to_list(newly_processed_missions)

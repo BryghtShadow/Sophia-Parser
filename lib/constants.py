@@ -328,8 +328,8 @@ LEVEL_LOCATION = {
 DIALOGUE_TYPE = {
     "Operation Prep 1": 1,
     "Operation Prep 2": 2,
-    "Added to Team 1": 3,
-    "Added to Team 2": 4,
+    "Adding to Team 1": 3,
+    "Adding to Team 2": 4,
     "Switching Weapon": 5,
     "Switching Gear": 6,
     "Talent Node Activation": 7,
